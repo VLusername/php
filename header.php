@@ -12,5 +12,6 @@
         <a href="task3.php"><li>Задача 3</li></a>
         <a href="task4.php"><li>Задача 4</li></a>
         <a href="task5.php"><li>Задача 5</li></a>
+        <a href="task7.php"><li>Задача 7</li></a>
     </ul>
 </div>
