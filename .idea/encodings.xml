@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/header.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/main.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task1.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task2.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task3.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/task4.php" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>
