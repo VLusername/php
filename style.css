@@ -1,0 +1,40 @@
+body{
+    background-color: #cccccc;
+}
+#header {
+    height: 70px;
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+
+ul{
+    list-style-type: none;
+    display: block;
+}
+ul a{
+    color: black;
+}
+ul li{
+    float: left;
+    text-align: center;
+    padding: 15px;
+}
+ul li:hover{
+    background-color: #a9ffb6;
+    padding: 15px;
+}
+table {
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+td, th {
+    width: 150px;
+    padding: 5px;
+    border: 1px solid black;
+
+}
+#content{
+    padding: 10px;
+    width: 100%;
+    min-height: 600px;
+}
