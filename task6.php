@@ -50,7 +50,6 @@ foreach($indexes as $i) {
     preg_match_all("/^(par)/", $string[$i], $result);
     if(!count($result[0])) echo ($i.", ");
 }
-
 echo ("</div>
     </div>
     </body>
