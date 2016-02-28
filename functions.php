@@ -82,7 +82,12 @@ function csvFromTablePrint($mysqli)
 /**************************TASK-5************************************************************/
 function quine()
 {
-    $a = array(
+    echo '1st guine: ';
+    $text = '$text = insert; echo preg_replace("/insert/m", "\n$text\n", $text, 1)'; echo preg_replace("/insert/m", "'\n$text\n'", $text, 1);
+    echo '<br><br>2nd quine: ';
+    $textForEdit = '$you can change this text (except dollar sign) and quine will consider changes'; $eval = 'printf ("%stextForEdit = \'%s\'; eval = %s; eval(%seval);", $textForEdit[0], $textForEdit, var_export($eval, true), $textForEdit[0]);'; eval($eval);
+
+    /*$a = array(
         101,99,104,111,32,39,36,97,61,32,97,114,114,97,121,40,39,59,10,60,98,114,62,
         102,111,114,101,97,99,104,40,36,97,32,97,115,32,36,116,41,32,10,60,98,114,62,
         101,99,104,111,32,36,116,46,34,44,32,34,59,10,60,98,114,62,
@@ -95,6 +100,6 @@ function quine()
         echo $t.", ";
     echo ');<br>';
     foreach($a as $t)
-        echo chr($t);
+        echo chr($t);*/
 
 }
