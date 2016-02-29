@@ -164,54 +164,63 @@ function textParse($task, $elements, $strings)
 }
 
 /**************************TASK-8************************************************************/
-function checkEmail(){
-//відразу явно вказую хост і свою пошту;
-//отримуємо МХ-записи (сервери, на які відправляється пошта) і їх пріорітети;
-    getmxrr("gmail.com", $mx_records, $mx_weight);
+function checkEmail($email){
+    preg_match("/^([a-zA-Z0-9.!#$%&'*+=?_-]{1,60})@([a-zA-Z]+.[a-zA-Z]{2,5})$/", $email, $result);
+    if(count($result)) {
+    //отримуємо МХ-записи (сервери, на які відправляється пошта) і їх пріорітети;
+        $mx_res = getmxrr($result[2], $mx_records, $mx_weight);
+        if($mx_res) {
 
-//записуємо ці сервери і пріорітети в один асоціативний масив, де ключами будуть сервери
-    for($i = 0; $i < count($mx_records); $i++){
-        $mxs[$mx_records[$i]] = $mx_weight[$i];
-    }
-//сортуємо; найменше число - найвищий пріорітет
-    asort ($mxs);
-
-//після сортування беремо тільки значення ключів (серверів)
-    $records = array_keys($mxs);
-    for($i = 0; $i < count($records); $i++){
-        $fp = @fsockopen($records[$i], 25, $errno, $errstr, 2);
-        if ($fp) {
-            echo "Connected to: " . $records[$i] . "<br>";
-
-            //представлення серверу
-            fwrite($fp, "HELO\r\n");
-            echo fgets($fp) . "<br>";
-            fwrite($fp, "mail from: <me@example.com>\r\n");
-            echo fgets($fp) . "<br>";
-
-            //запит на відправку листа за адресою
-            fwrite($fp, "rcpt to:<viacheslav.mail@gmail.com>\r\n");
-            echo fgets($fp) . "<br>";
-            $finalAnswer = "";
-            stream_set_timeout($fp, 1);
-            for ($j = 0; $j < 4; $j++) {
-                $finalAnswer .= fgets($fp);
+            //записуємо ці сервери і пріорітети в один асоціативний масив, де ключами будуть сервери
+            for($i = 0; $i < count($mx_records); $i++){
+                $mxs[$mx_records[$i]] = $mx_weight[$i];
             }
-            echo $finalAnswer;
-            //аналіз відповіді по коду
-            if (substr($finalAnswer, 0, 3) == "250") {
-                echo "<br><br>Email exist<br>";
-                fwrite($fp, "QUIT\r\n");
-                fclose($fp);
-                break;
-            } elseif (substr($finalAnswer, 0, 3) == "550") {
-                echo "<br><br>Email doesn't exist at ".$records[$i]."<br><br>";
-                fwrite($fp, "QUIT\r\n");
-                fclose($fp);
-            }
+            //сортуємо; найменше число - найвищий пріорітет
+            asort ($mxs);
 
-        } else {
-            echo "<br>Connect error: " . $errstr;
+            //після сортування беремо тільки значення ключів (серверів)
+            $records = array_keys($mxs);
+            for($i = 0; $i < count($records); $i++){
+                $fp = @fsockopen($records[$i], 25, $errno, $errstr, 2);
+                if ($fp) {
+                    echo "Connected to: " . $records[$i] . "<br>";
+
+                    //представлення серверу
+                    fwrite($fp, "HELO ". $_SERVER['HTTP_HOST']."\r\n");
+                    echo fgets($fp). "<br>";
+                    fwrite($fp, "MAIL FROM: <me@example.com>\r\n");
+                    echo fgets($fp). "<br>";
+
+                    //запит на відправку листа за адресою
+                    fwrite($fp, "RCPT TO: <".$result[0].">\r\n");
+                    echo fgets($fp) . "<br>";
+                    $finalAnswer = "";
+                    stream_set_timeout($fp, 1);
+                    for ($j = 0; $j < 4; $j++) {
+                        $finalAnswer .= fgets($fp);
+                    }
+                    echo $finalAnswer;
+                    //аналіз відповіді по коду
+                    if (substr($finalAnswer, 0, 3) == "250") {
+                        echo "<br><br>Email '".$result[0]."' exist<br>";
+                        fwrite($fp, "QUIT\r\n");
+                        fclose($fp);
+                        break;
+                    } elseif (substr($finalAnswer, 0, 3) == "550") {
+                        echo "<br><br>Email '".$result[0]."' doesn't exist at ".$records[$i]."<br><br>";
+                        fwrite($fp, "QUIT\r\n");
+                        fclose($fp);
+                    }
+                } else {
+                    echo "<br>Connect error: " . $errstr;
+                }
+            }
         }
+        else {
+            echo "Connect to host error";
+        }
+    }
+    else{
+        echo "Invalid email format";
     }
 }
