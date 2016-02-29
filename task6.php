@@ -23,33 +23,14 @@ $string[10]=’revolution apart for volume 3’;<br><br>
 $string[1] = 'revolution vol 1';
 $string[6] = 'revolution part 2';
 $string[10] = 'revolution apart for volume 3';
-$indexes = array(1, 6, 10);
+$indexes = array_keys($string);
 
-echo ("<br>1) выполняется для элементов с индексом: ");
-foreach($indexes as $i)
-    if(substr_count($string[$i], 'vol') == 1) echo ($i.", ");
+textParse(1, $indexes, $string);
+textParse(2, $indexes, $string);
+textParse(3, $indexes, $string);
+textParse(4, $indexes, $string);
+textParse(5, $indexes, $string);
 
-echo ("<br>2) выполняется для элементов с индексом: ");
-foreach($indexes as $i)
-    if(substr_count($string[$i], 'vol') == 2) echo ($i.", ");
-
-echo ("<br>3) выполняется для элементов с индексом: ");
-foreach($indexes as $i) {
-    preg_match_all("/(vol\s)/", $string[$i], $result);
-    if(count($result[0])) echo ($i.", ");
-}
-
-echo ("<br>4) выполняется для элементов с индексом: ");
-foreach($indexes as $i) {
-    preg_match_all("/^(vol)/", $string[$i], $result);
-    if(count($result[0])) echo ($i.", ");
-}
-
-echo ("<br>5) выполняется для элементов с индексом: ");
-foreach($indexes as $i) {
-    preg_match_all("/^(par)/", $string[$i], $result);
-    if(!count($result[0])) echo ($i.", ");
-}
 echo ("</div>
     </div>
     </body>
