@@ -162,3 +162,56 @@ function textParse($task, $elements, $strings)
             break;
     }
 }
+
+/**************************TASK-8************************************************************/
+function checkEmail(){
+//відразу явно вказую хост і свою пошту;
+//отримуємо МХ-записи (сервери, на які відправляється пошта) і їх пріорітети;
+    getmxrr("gmail.com", $mx_records, $mx_weight);
+
+//записуємо ці сервери і пріорітети в один асоціативний масив, де ключами будуть сервери
+    for($i = 0; $i < count($mx_records); $i++){
+        $mxs[$mx_records[$i]] = $mx_weight[$i];
+    }
+//сортуємо; найменше число - найвищий пріорітет
+    asort ($mxs);
+
+//після сортування беремо тільки значення ключів (серверів)
+    $records = array_keys($mxs);
+    for($i = 0; $i < count($records); $i++){
+        $fp = @fsockopen($records[$i], 25, $errno, $errstr, 2);
+        if ($fp) {
+            echo "Connected to: " . $records[$i] . "<br>";
+
+            //представлення серверу
+            fwrite($fp, "HELO\r\n");
+            echo fgets($fp) . "<br>";
+            fwrite($fp, "mail from: <me@example.com>\r\n");
+            echo fgets($fp) . "<br>";
+
+            //запит на відправку листа за адресою
+            fwrite($fp, "rcpt to:<viacheslav.mail@gmail.com>\r\n");
+            echo fgets($fp) . "<br>";
+            $finalAnswer = "";
+            stream_set_timeout($fp, 1);
+            for ($j = 0; $j < 4; $j++) {
+                $finalAnswer .= fgets($fp);
+            }
+            echo $finalAnswer;
+            //аналіз відповіді по коду
+            if (substr($finalAnswer, 0, 3) == "250") {
+                echo "<br><br>Email exist<br>";
+                fwrite($fp, "QUIT\r\n");
+                fclose($fp);
+                break;
+            } elseif (substr($finalAnswer, 0, 3) == "550") {
+                echo "<br><br>Email doesn't exist at ".$records[$i]."<br><br>";
+                fwrite($fp, "QUIT\r\n");
+                fclose($fp);
+            }
+
+        } else {
+            echo "<br>Connect error: " . $errstr;
+        }
+    }
+}
