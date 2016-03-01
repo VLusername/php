@@ -104,63 +104,34 @@ function quine()
 
 }
 /**************************TASK-6************************************************************/
-function textParse($task, $elements, $strings)
-{
-    switch($task){
-        case 1:
-            echo ("<br>1) выполняется для элементов с индексом: ");
-            do  {
-                $i = array_shift($elements);
-                preg_match_all("/(vol)/", $strings[$i], $result);
-                if (count($result[0]) == 1) {
-                    echo($i . ", ");
-                }
-            }while($i != null);
-            break;
-        case 2:
-            echo ("<br>2) выполняется для элементов с индексом: ");
-            do  {
-                $i = array_shift($elements);
-                preg_match_all("/(vol)/", $strings[$i], $result);
-                if (count($result[0]) == 2) {
-                    echo($i . ", ");
-                }
-            }while($i != null);
-            break;
-        case 3:
-            echo ("<br>3) выполняется для элементов с индексом: ");
-            do  {
-                $i = array_shift($elements);
-                preg_match_all("/(vol\s)/", $strings[$i], $result);
-                if(count($result[0])) {
-                    echo($i . ", ");
-                }
-            }while($i != null);
-            break;
-        case 4:
-            echo ("<br>4) выполняется для элементов с индексом: ");
-            do  {
-                $i = array_shift($elements);
-                preg_match_all("/^(vol)/", $strings[$i], $result);
-                if(count($result[0])) {
-                    echo($i . ", ");
-                }
-            }while($i != null);
-            break;
-        case 5:
-            echo ("<br>5) выполняется для элементов с индексом: ");
-            do  {
-                $i = array_shift($elements);
-                preg_match_all("/^(par)/", $strings[$i], $result);
-                if(!count($result[0])) {
-                    echo($i . ", ");
-                }
-            }while($i != null);
-            break;
-        default:
-            echo "error task number";
-            break;
+function testStr($str, $ind){
+    echo "Для рядка \$string[".$ind."] виконуються умови: ";
+    preg_match_all("/(vol)/", $str, $result);
+    if (count($result[0]) == 1) {
+        echo("1, ");
     }
+    preg_match_all("/(vol)/", $str, $result);
+    if (count($result[0]) == 2) {
+        echo("2, ");
+    }
+    preg_match_all("/(vol\s)/", $str, $result);
+    if(count($result[0])) {
+        echo("3, ");
+    }
+    preg_match_all("/^(vol)/", $str, $result);
+    if(count($result[0])) {
+        echo("4, ");
+    }
+    preg_match_all("/^(par)/", $str, $result);
+    if(!count($result[0])) {
+        echo("5, ");
+    }
+    echo "<br>";
+}
+
+function textParse($strings, $indexes)
+{
+    array_map("testStr", $strings, $indexes);
 }
 
 /**************************TASK-8************************************************************/

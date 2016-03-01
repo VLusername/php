@@ -25,11 +25,7 @@ $string[6] = 'revolution part 2';
 $string[10] = 'revolution apart for volume 3';
 $indexes = array_keys($string);
 
-textParse(1, $indexes, $string);
-textParse(2, $indexes, $string);
-textParse(3, $indexes, $string);
-textParse(4, $indexes, $string);
-textParse(5, $indexes, $string);
+textParse($string, $indexes);
 
 echo ("</div>
     </div>
