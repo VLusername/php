@@ -38,3 +38,13 @@ td, th {
     width: 100%;
     min-height: 600px;
 }
+
+input[type="button"]{
+    position: relative;
+    top: 10px;
+    left: 100px;
+    width: 50px;
+    height: 30px;
+    margin: 5px;
+    transition: 1.5s;
+}
