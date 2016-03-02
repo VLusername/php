@@ -1,6 +1,6 @@
 <?php
-include "header.php";
-include "functions.php";
+include "../header.php";
+include "../functions.php";
 
 echo ("<div id='content'>
     <div>

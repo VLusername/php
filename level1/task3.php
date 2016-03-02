@@ -1,6 +1,6 @@
 <?php
-include "header.php";
-include "connect.php";
+include "../header.php";
+include "../connect.php";
 
 echo("<div id='content'>
 <div>
@@ -45,7 +45,7 @@ DELIMITER ;
         }
         echo ("</tr>");
     }
-    include "connect.php";
+    include "../connect.php";
     $summaQuery = $mysqli->query("select `Date`, SUM(Value) as `summa`
                                   from `tb_results`, `tb_accounts`
                                   where tb_results.AccountID = tb_accounts.AccountID

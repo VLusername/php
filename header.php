@@ -1,19 +1,19 @@
+<?php
+define('LEVEL1', '../level1/');
+define('LEVEL2', '../level2/');
+define('MAINFOLDER', '../');
+?>
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="style.css" type="text/css" media="screen, projection" />
+    <link rel="stylesheet" href="<?=MAINFOLDER?>style.css" type="text/css" media="screen, projection" />
 </head>
 <body>
 <div id="header">
     <ul>
-        <a href="index.php"><li>Главная</li></a>
-        <a href="task1.php"><li>Задача 1</li></a>
-        <a href="task2.php"><li>Задача 2</li></a>
-        <a href="task3.php"><li>Задача 3</li></a>
-        <a href="task4.php"><li>Задача 4</li></a>
-        <a href="task5.php"><li>Задача 5</li></a>
-        <a href="task6.php"><li>Задача 6</li></a>
-        <a href="task7.php"><li>Задача 7</li></a>
-        <a href="task8.php"><li>Задача 8</li></a>
+        <a href="<?=MAINFOLDER?>index.php"><li>Главная</li></a>
+        <a href="<?=MAINFOLDER?>level1.php"><li>Уровень 1</li></a>
+        <a href="<?=MAINFOLDER?>level2.php"><li>Уровень 2</li></a>
+        <a href="<?=MAINFOLDER?>level3.php"><li>Уровень 3</li></a>
     </ul>
 </div>

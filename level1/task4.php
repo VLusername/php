@@ -1,7 +1,7 @@
 <?php
-include "header.php";
-include "functions.php";
-include "connect.php";
+include "../header.php";
+include "../functions.php";
+include "../connect.php";
 
 echo("<div id='content'>
     <div>

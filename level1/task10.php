@@ -1,5 +1,5 @@
 <?php
-include "header.php";
+include "../header.php";
 
 echo("<div id='content'>
     <div>

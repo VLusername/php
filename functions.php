@@ -22,7 +22,7 @@ function changeTimeZone($time)
 /**************************TASK-4************************************************************/
 function csvOperations($mysqli)
 {
-    $file = fopen("data.csv", "r");
+    $file = fopen("../data.csv", "r");
     $csvData = fgetcsv($file, null, ";");
     $dataQuery = "CREATE TABLE IF NOT EXISTS csv (
                                                  `".$csvData[0]."` varchar(50) DEFAULT NULL,
