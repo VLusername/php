@@ -1,9 +1,30 @@
 <?php
+/**
+ * Файл реалізації класів
+ *
+ * @author Viacheslav <viacheslav.mail@gmail.com>
+ * @version 1.0
+ */
 
+/**
+ * Клас для створення й заповнення таблиці для завдання 1
+ */
 final class init {
 
+    /**
+     * Змінна для з'єднання з БД типу об'єкта mysqli
+     * @access private
+     * @var mysqli
+     */
     private $mysqli;
 
+     /**
+      * Констурктор класу
+      * @uses init::$mysqli для підключення до БД
+      * @uses init::create() створення таблиці
+      * @uses init::fill() заповнення таблиці випадковими значеннями
+      * @return void
+     */
     public function __construct() {
         $this->mysqli = new mysqli("localhost", "root", "", "third_task_db");
         if (mysqli_connect_errno()) {
@@ -14,7 +35,17 @@ final class init {
         $this->fill();
     }
 
+    /**
+     * Метод створення таблиці
+     * @uses init::$mysqli для підключення до БД
+     * @return void
+     */
     private function create(){
+
+        /**
+         *
+         * @param string $createQuery змінна зберігання запиту створення таблиці
+         */
         $createQuery = "CREATE TABLE IF NOT EXISTS test (
                                                  `id` int(5) AUTO_INCREMENT PRIMARY KEY,
                                                  `script_name` varchar(25) DEFAULT NULL,
@@ -33,11 +64,22 @@ final class init {
         }
 
     }
+    /**
+     * Метод заповнення таблиці
+     * @uses init::$mysqli для підключення до БД
+     * @return void
+     */
     private function fill(){
+        /**
+         * @param array $setArray масив для зберігання варіантів заповнення поля таблиці result
+         */
         $setArray = array('normal', 'illegal', 'failed', 'success');
         try{
             $this->mysqli->query("TRUNCATE TABLE `test`");
             for($i = 0; $i < 10; $i++) {
+                /**
+                 * @param string $fillQuery змінна зберігання запиту вставки
+                 */
                 $fillQuery = "INSERT INTO `test` (`script_name`, `start_time`, `end_time`, `result`) VALUES ('".rand(1, 10)."', '".rand(1, 10)."', '".rand(1, 10)."', '".$setArray[rand(0, 3)]."')";
                 if (!$this->mysqli->query($fillQuery)) {
                     throw new Exception('Не удалось записать данные в таблицу - ' . $this->mysqli->error);
@@ -49,7 +91,17 @@ final class init {
             echo '<br>Исключение: ',  $e->getMessage(), "\n";
         }
     }
+
+    /**
+     * Метод вибірки з таблиці
+     * @uses init::$mysqli для підключення до БД
+     * @return void
+     */
     public function get(){
+        /**
+         *
+         * @param string $selectQuery змінна зберігання запиту вибірки
+         */
         $selectQuery = "SELECT * FROM `test` WHERE `result` = 'normal' OR `result` = 'success'";
         try{
             if (!$result = $this->mysqli->query($selectQuery)) {
