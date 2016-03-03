@@ -16,22 +16,19 @@ function findFiles()
 {
     /**
      *
-     * @param [дескриптор] $handle для пошуку в ньому імен файлів
-     * @param array $files масив для зберігання всіх файлів каталогу
+     * @param array $files масив для зберігання знайдених файлів каталогу
      */
-    if ($handle = opendir('../datafiles')) {
-        $files = array();
-        while (false !== ($file = readdir($handle))) {
-            preg_match("/^[a-zA-Z0-9]+.ixt$/", $file, $result);
-            if (count($result[0])) {
-                array_push($files, $file);
-            }
+    $files = array();
+    $it = new FilesystemIterator('../datafiles');
+    foreach ($it as $fileinfo) {
+        preg_match("/^[a-zA-Z0-9]+.ixt$/", $fileinfo->getFilename(), $result);
+        if (count($result[0])) {
+            array_push($files, $fileinfo->getFilename());
         }
-        asort($files);
-        echo "Файлы:<br>";
-        foreach ($files as $file) {
-            echo $file . "<br>";
-        }
-        closedir($handle);
+    }
+    asort($files);
+    echo "Файлы:<br>";
+    foreach ($files as $file) {
+        echo $file . "<br>";
     }
 }
