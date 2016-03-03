@@ -71,22 +71,67 @@ final class init {
      */
     private function fill(){
         /**
-         * @param array $setArray масив для зберігання варіантів заповнення поля таблиці result
+         * @param array $setArray масив для зберігання варіантів заповнення поля result таблиці test
          */
         $setArray = array('normal', 'illegal', 'failed', 'success');
-        try{
-            $this->mysqli->query("TRUNCATE TABLE `test`");
-            for($i = 0; $i < 10; $i++) {
-                /**
-                 * @param string $fillQuery змінна зберігання запиту вставки
-                 */
-                $fillQuery = "INSERT INTO `test` (`script_name`, `start_time`, `end_time`, `result`) VALUES ('".rand(1, 10)."', '".rand(1, 10)."', '".rand(1, 10)."', '".$setArray[rand(0, 3)]."')";
-                if (!$this->mysqli->query($fillQuery)) {
-                    throw new Exception('Не удалось записать данные в таблицу - ' . $this->mysqli->error);
-                } else {
-                    //echo "<br>".$i."-я строка данных добавлена в таблица test";
+        /**
+         * @param array $insertArray масив для зберігання всіх готових рядків для вставки
+         */
+        $insertArray = array();
+        /**
+         * @param array $keysForValue масив ключів для формування значень елементів вставки
+         */
+        $keysForValue = array('script_name', 'start_time', 'end_time', 'result');
+        /**
+         * @param array $valueForInsertArray масив для значень, які по ключу підставлятимуться в $insertArray
+         */
+        $valueForInsertArray = array();
+        /**
+         * формування масиву випадкових значень
+         */
+        for($i = 0; $i < 10; $i++) {
+            $valueForInsertArray[$keysForValue[0]] = $i;
+                for ($j = 1; $j < count($keysForValue) - 1; $j++) {
+                    $valueForInsertArray[$keysForValue[$j]] = rand(1, 10);
                 }
+            $valueForInsertArray[$keysForValue[count($keysForValue) - 1]] = $setArray[rand(0, 3)];
+
+            $insertArray[$i] = $valueForInsertArray;
+        }
+        /**
+         * @param string $stringValues рядок всіх значень для запиту вставки
+         */
+        $stringValues = "";
+        /**
+         * @param string $str рядок одного елемента вставки
+         */
+        $str ="";
+        /**
+         * збирання значення для елемента VALUES в запиті
+         */
+        for($i = 0; $i < 10; $i++) {
+            $str .= "('".$insertArray[$i]['script_name']."', '".$insertArray[$i]['start_time']."', '".$insertArray[$i]['end_time']."', '".$insertArray[$i]['result']."')";
+            if($i == 9){
+                $stringValues .= $str;
+            } else {
+                $stringValues .= $str.", ";
             }
+            $str ="";
+        }
+        //echo $stringValues."<br>";
+
+        try {
+            $this->mysqli->query("TRUNCATE TABLE `test`");
+            /**
+             * @param string $fillQuery змінна зберігання запиту вставки
+             */
+            $fillQuery = "INSERT INTO `test` (`script_name`, `start_time`, `end_time`, `result`) VALUES $stringValues";
+            if (!$this->mysqli->query($fillQuery)) {
+                throw new Exception('Не удалось записать данные в таблицу - ' . $this->mysqli->error);
+            } else {
+                //echo "<br>".$i."-я строка данных добавлена в таблица test";
+            }
+
         }catch (Exception $e) {
             echo '<br>Исключение: ',  $e->getMessage(), "\n";
         }
