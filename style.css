@@ -40,8 +40,6 @@ td, th {
 }
 
 input[type="button"]{
-    position: relative;
-    top: 10px;
     left: 100px;
     width: 50px;
     height: 30px;
