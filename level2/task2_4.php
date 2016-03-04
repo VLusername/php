@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 include "../header.php";
 include "../functions_level2.php";
 
